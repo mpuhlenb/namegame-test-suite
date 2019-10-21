@@ -32,3 +32,7 @@ I placed a util.js file in integration folder as well. This houses a few functio
 ## Notes
 I made 2 test set to fail as they could be considered incorrect grammar.
 They have comments indicated which ones and can be updated to pass with simple change to text
+
+## More about Cypress.io
+Cypress.io Core Concepts:
+https://docs.cypress.io/guides/core-concepts/introduction-to-cypress.html#Cypress-Can-Be-Simple-Sometimes
