@@ -45,5 +45,4 @@ const checkIfCorrectPhotoLabelNotExist = () => {
     } catch (error) {
         return false
     }
-
 }
