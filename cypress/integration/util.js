@@ -15,16 +15,16 @@ export const clickCorrectPhoto = () => {
 
         // Get the data attribute from the name
         cy.get('#name')
-        .attribute('data-n')
-        .then((datan) => {
+            .attribute('data-n')
+            .then((datan) => {
 
-            // Use attribute as index of correct
-            cy.get('.photo')
-            .children('div.shade')
-            .eq(datan)
-            .click()
+                // Use attribute as index of correct
+                cy.get('.photo')
+                    .children('div.shade')
+                    .eq(datan)
+                    .click()
 
-        })
+            })
     }
 }
 
@@ -35,24 +35,24 @@ export const clickWrongPhoto = () => {
 
         // Get the data attribute from name to ensure we do not select a correct photo
         cy.get('#name')
-        .attribute('data-n')
-        .then((datan) => {
+            .attribute('data-n')
+            .then((datan) => {
 
-            //Make sure we do not select a correct guess add indexer to datan
-            switch (Number(datan)) {
-                case 4:
-                    var indexer = -1
+                //Make sure we do not select a correct guess add indexer to datan
+                switch (Number(datan)) {
+                    case 4:
+                        var indexer = -1
 
-                default:
-                    var indexer = 1
-                    break;
-            }
+                    default:
+                        var indexer = 1
+                        break;
+                }
 
-            cy.get('.photo')
-                .eq(Number(datan) + indexer)
-                .should('not.have.class', 'wrong')
-                .click()
-        })
+                cy.get('.photo')
+                    .eq(Number(datan) + indexer)
+                    .should('not.have.class', 'wrong')
+                    .click()
+            })
     }
 }
 
@@ -62,8 +62,8 @@ const checkIfCorrectPhotoLabelNotExist = () => {
     try {
 
         cy.get('.photo.correct')
-        .should('not.exist')
-        
+            .should('not.exist')
+
     } catch (error) {
         return false
     }

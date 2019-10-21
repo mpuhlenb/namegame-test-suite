@@ -239,7 +239,7 @@ context('HomePage', () => {
     })
 
     it('The proper decorator appears for correct guesses', () => {
-        
+
         var initialcolor = 'rgba(184, 20, 20, 0)'
         var correctcolor = 'rgba(20, 184, 20, 0.5)'
 
