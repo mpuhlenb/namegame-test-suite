@@ -1,4 +1,4 @@
-import { clickCorrectPhoto, clickWrongPhoto, createASimpleStreak } from './util'
+import { clickCorrectPhoto, clickWrongPhoto, createASimpleStreak, getNameDatanValue } from './util'
 /// <reference types="Cypress" />
 
 
@@ -25,6 +25,7 @@ context('HomePage', () => {
         })
 
     })
+    
     //Click any photo and check that attempts counter increments
     it('Attempts/Tries counter increments after selecting a photo', () => {
         cy.get('.attempts').invoke('text').then((initialTries) => {
@@ -35,7 +36,6 @@ context('HomePage', () => {
         })
     })
 
-    // Get initial counters, make a streak x times then ensure counters increased x amount
     it('All counter increment when correct photo is found x times', () => {
         var streak = 2
         cy.get('span.correct').invoke('text').then((initialCorrect) => {
@@ -55,12 +55,11 @@ context('HomePage', () => {
                             })
 
 
-                    })
+                        })
                 })
             })
         })
     })
-
 
     it('Streak counter resets, correct stays the same, tries increments when wrong photo selected', () => {
         //Set initial state of streak x times
@@ -150,5 +149,4 @@ context('HomePage', () => {
             })
         })
     })
-
 })
