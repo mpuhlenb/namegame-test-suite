@@ -1,11 +1,19 @@
 # namegame-test-suite
 
 ## Installation
+Assumes Cypress.io is already installed globally.
+
+
+```shell
+npm install cypress
+```
+
 Pull down repository and from project root directory
 
 ```shell
 npm run cypress:open
 ```
+
 In the Cypress App click the homepagetests.spec.js file and it will begin running the tests
 
 ## Tests
