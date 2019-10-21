@@ -38,13 +38,6 @@ export const clickWrongPhoto = () => {
     }
 }
 
-export const getNameDatanValue = () => {
-    debugger
-    cy.get('#name').attribute(datan).then((datanValue) => {
-        return datanValue
-    })
-} 
-
 const checkIfCorrectPhotoLabelNotExist = () => {
     //Quick method to avoid clicking while page reloads, possible defect
     try {
