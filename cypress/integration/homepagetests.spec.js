@@ -314,12 +314,15 @@ context('HomePage', () => {
             })
     })
 
+    /* Believe this exposes existing defect.
+     Because photos can continue to clicked before reload after correct guess. */
     it('If correct photo selected cannot select any photo until new photos reload', () => {
 
         cy.get('#name')
             .attribute('data-n')
             .then((datan) => {
-                switch (datan) {
+
+                switch (Number(datan)) {
                     case 4:
                         var indexer = -1
                         break;
@@ -328,17 +331,31 @@ context('HomePage', () => {
                         var indexer = 1
                         break;
                 }
-                //Click a correct photo
-                clickCorrectPhoto(1)
 
-                // Then click wrong photo immediately after
-                cy.get('.photo')
-                    .eq(Number(datan) + indexer)
-                    .click()
+                cy.get('#name')
+                    .text()
+                    .then((initialname) => {
 
-                // Expect only a correct photo and decorator on page
-                expect(cy.get('.photo.correct')).to.exist
-                expect(cy.get('.photo.wrong')).to.not.exist
+                        //Click a correct photo
+                        clickCorrectPhoto(1)
+
+                        // Then click wrong photo immediately after
+                        cy.get('.photo')
+                            .eq(Number(datan) + indexer)
+                            .click()
+
+                        // Expect only a correct photo and decorator on page
+                        cy.get('#name').text().then((newname) => {
+
+                            expect(cy.get('.photo.correct')).to.exist
+
+                            expect(newname).to.not.equal(initialname)
+
+                            expect(cy.get('.photo.wrong')).to.not.exist
+                        })
+
+
+                    })
             })
     })
 
