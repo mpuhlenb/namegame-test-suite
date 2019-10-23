@@ -1,4 +1,4 @@
-import { clickCorrectPhoto, clickWrongPhoto, createASimpleStreak, getNameDatanValue } from './util'
+import { clickCorrectPhoto, clickWrongPhoto, createASimpleStreak } from './util'
 /// <reference types="Cypress" />
 
 
@@ -134,10 +134,17 @@ context('HomePage', () => {
                                                 .invoke('text')
                                                 .then((lastAttempt) => {
 
-                                                    expect(Number(finalCorrect)).to.eq(Number(initialCorrect))
-                                                    expect(Number(endofStreak)).to.not.equal(Number(initialStreak))
-                                                    expect(Number(endofStreak)).to.equal(0)
-                                                    expect(Number(lastAttempt)).to.equal(Number(initialAttempts) + 1)
+                                                    expect(Number(finalCorrect))
+                                                        .to.eq(Number(initialCorrect))
+
+                                                    expect(Number(endofStreak))
+                                                        .to.not.equal(Number(initialStreak))
+
+                                                    expect(Number(endofStreak))
+                                                        .to.equal(0)
+
+                                                    expect(Number(lastAttempt))
+                                                        .to.equal(Number(initialAttempts) + 1)
                                                 })
                                         })
                                 })
@@ -188,7 +195,6 @@ context('HomePage', () => {
 
     it('The proper decorator appears for wrong guesses', () => {
 
-        var initialcolor = 'rgba(184, 20, 20, 0)'
         var wrongcolor = 'rgba(184, 20, 20, 0.5)'
 
         cy.get('.photo.wrong')
@@ -240,7 +246,6 @@ context('HomePage', () => {
 
     it('The proper decorator appears for correct guesses', () => {
 
-        var initialcolor = 'rgba(184, 20, 20, 0)'
         var correctcolor = 'rgba(20, 184, 20, 0.5)'
 
         cy.get('#name')
@@ -256,10 +261,6 @@ context('HomePage', () => {
                     .children('div.name')
                     .eq(datan)
                     .as('correctname')
-
-                cy.get('@correctoverlay')
-                    .should('have.css', 'background-color')
-                    .and('equal', initialcolor)
 
                 cy.get('@correctname')
                     .should('have.css', 'top')
@@ -280,5 +281,76 @@ context('HomePage', () => {
                             })
                     })
             })
+    })
+
+    it('Pictures have # label indicating position in list in top right corner', () => {
+
+        cy.get('.photo')
+            .each(($pic) => {
+                cy.get($pic)
+                    .children('div.shade')
+                    .as('decoratorText')
+
+                cy.get('@decoratorText')
+                    .should('have.css', 'text-align')
+                    .and('equal', 'right')
+
+                cy.get('@decoratorText')
+                    .should('have.css', 'top')
+
+                    .and('equal', '0px')
+
+                cy.get('@decoratorText')
+                    .invoke('text')
+                    .then((placenumber) => {
+
+                        cy.get('@decoratorText')
+                            .attribute('data-n').then((datan) => {
+
+                                expect(Number(datan) + 1).to.eq(Number(placenumber))
+
+                            })
+                    })
+            })
+    })
+
+    it('If correct photo selected cannot select any photo until new photos reload', () => {
+
+        cy.get('#name')
+            .attribute('data-n')
+            .then((datan) => {
+                switch (datan) {
+                    case 4:
+                        var indexer = -1
+                        break;
+
+                    default:
+                        var indexer = 1
+                        break;
+                }
+                //Click a correct photo
+                clickCorrectPhoto(1)
+
+                // Then click wrong photo immediately after
+                cy.get('.photo')
+                    .eq(Number(datan) + indexer)
+                    .click()
+
+                // Expect only a correct photo and decorator on page
+                expect(cy.get('.photo.correct')).to.exist
+                expect(cy.get('.photo.wrong')).to.not.exist
+            })
+    })
+
+    it('The name displayed is matches name of correct guess', () => {
+
+        cy.get('#name').attribute('data-n').then((datan) => {
+
+            cy.get('.photo').children('.name').eq(datan).invoke('text').then((photoname) => {
+                cy.get('#name').invoke('text').then((displayname) => {
+                    expect(photoname).to.equal(displayname)
+                })
+            })
+        })
     })
 })

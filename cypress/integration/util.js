@@ -60,7 +60,6 @@ const checkIfCorrectPhotoLabelNotExist = () => {
     //Quick method to avoid clicking while page reloads, possible defect
 
     try {
-
         cy.get('.photo.correct')
             .should('not.exist')
 
@@ -68,3 +67,4 @@ const checkIfCorrectPhotoLabelNotExist = () => {
         return false
     }
 }
+
