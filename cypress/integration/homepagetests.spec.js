@@ -342,7 +342,7 @@ context('HomePage', () => {
             })
     })
 
-    it('The name displayed is matches name of correct guess', () => {
+    it('The name displayed matches name of correct photo', () => {
 
         cy.get('#name').attribute('data-n').then((datan) => {
 
